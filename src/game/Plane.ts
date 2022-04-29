@@ -1,4 +1,8 @@
+import { Bullet } from "./Bullet";
+
 export interface Plane {
+  run();
+  attack();
   moveRight();
   x: number;
   y: number;
@@ -12,8 +16,36 @@ const defaultOptions = {
   y: 0,
   speed: 5,
 };
-export function setupPlane(plane:any, options?:any): Plane {
+export function setupPlane(plane:any, bullets:Bullet[],options?:any,): Plane {
   Object.assign(plane, defaultOptions, options);
+  initMove(plane);
+  initAttack(plane, bullets);
+  initRun(plane, bullets);
+  return plane;
+}
+function initAttack(plane: any, bullets: Bullet[]) {
+  plane.attack = () => {
+    const bullet = new Bullet();
+    bullet.x = plane.x + 25;
+    bullet.y = plane.y;
+    bullet.border = 100
+    bullet.onDestroy =() => {
+      const index = bullets.indexOf(bullet);
+      bullets.splice(index, 1);
+    }
+    bullets.push(bullet);
+  };
+}
+
+function initRun(plane: any, bullets: Bullet[]) {
+  plane.run = () => {
+    bullets.forEach(bullet => {
+      bullet.move();
+    });
+  };
+}
+
+function initMove(plane: any) {
   plane.moveDown = () => {
     plane.y += plane.speed;
   };
@@ -26,5 +58,5 @@ export function setupPlane(plane:any, options?:any): Plane {
   plane.moveRight = () => {
     plane.x += plane.speed;
   };
-  return plane;
 }
+
