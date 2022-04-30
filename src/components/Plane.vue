@@ -16,8 +16,7 @@ const { plane } = defineProps({
 });
 
 window.addEventListener("keydown", (e: any) => {
-  if(e.code === "Space") {
-    
+  if (e.code === "Space") {
     plane.attack();
   }
   console.log(e);

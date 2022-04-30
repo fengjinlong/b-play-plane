@@ -1,6 +1,7 @@
 import { Bullet } from "./Bullet";
 
 export interface Plane {
+  bullets: Bullet[];
   run();
   attack();
   moveRight();
@@ -13,11 +14,12 @@ export interface Plane {
 
 const defaultOptions = {
   x: 0,
-  y: 0,
+  y: 300,
   speed: 5,
 };
 export function setupPlane(plane:any, bullets:Bullet[],options?:any,): Plane {
   Object.assign(plane, defaultOptions, options);
+  plane.bullets = bullets;
   initMove(plane);
   initAttack(plane, bullets);
   initRun(plane, bullets);
